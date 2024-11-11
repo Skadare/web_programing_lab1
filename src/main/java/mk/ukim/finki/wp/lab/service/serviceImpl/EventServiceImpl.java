@@ -46,5 +46,10 @@ public class EventServiceImpl implements EventService {
     public Optional<Event> delete(Long id) {
         return er.delete(id);
     }
+
+    @Override
+    public Optional<Event> increasePopularity(Long id) {
+        return er.increasePoints(id);
+    }
 }
 

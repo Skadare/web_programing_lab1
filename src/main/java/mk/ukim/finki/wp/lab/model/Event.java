@@ -10,6 +10,7 @@ public class Event {
     String description;
     double popularityScore;
     Location location;
+    boolean liked;
 
     public Event(String name, String description, double popularityScore, Location location) {
         this.id = (long) (Math.random()*1000);
@@ -17,6 +18,7 @@ public class Event {
         this.description = description;
         this.popularityScore = popularityScore;
         this.location = location;
+        this.liked = false;
     }
     public Event(){
         this.id = null;
@@ -24,5 +26,14 @@ public class Event {
         this.description = null;
         this.popularityScore = 0;
         this.location = null;
+        this.liked = false;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

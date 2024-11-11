@@ -7,6 +7,7 @@ import mk.ukim.finki.wp.lab.service.LocationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class EventController {
     public String getEventsPage(@RequestParam(required = false) String error, Model model){
         List<Event> eventList = eventService.listAll();
         model.addAttribute("events",eventList);
+       // model.addAttribute("clicked",false);
         return "listEvents";
     }
 
@@ -72,4 +74,19 @@ public class EventController {
         eventService.delete(id);
         return "redirect:/events";
     }
+
+    @PostMapping("/{id}/increase")
+    public String increaseEvent(@PathVariable Long id, Model model){
+        eventService.increasePopularity(id);
+        Event event =  eventService.findById(id).orElseThrow(() -> new RuntimeException("event not founf"));
+        model.addAttribute("event", event);
+        return "redirect:/events";
+    }
+//    @PostMapping("/{id}/increase")
+//    public String increaseEvent(@PathVariable Long id, Model model){
+//        eventService.increasePopularity(id);
+//        model.addAttribute("clickedEventId",id);
+//
+//                return "redirect:/events/add";
+//    }
 }

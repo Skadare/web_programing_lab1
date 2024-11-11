@@ -9,7 +9,6 @@
         }
     </style>
     <script>
-        // JavaScript function to set the selected event name in the hidden input field
         function setEventName(eventName) {
             document.getElementById('hiddenEventName').value = eventName.getAttribute('data-event-name');
         }
@@ -50,6 +49,11 @@
 
         <form th:action="@{'/events/{id}/edit'(id=${e.getId()})}" style="display: inline">
             <button type="submit">Edit</button>
+        </form>
+
+        <form th:method="POST" th:action="@{'/events/{id}/increase'(id=${e.getId()})}" style="display: inline">
+            <button style="display: inline" type="submit" th:disabled="${e.isLiked()}" >Increase</button>
+            <th:block th:text="${clickedEventId}"></th:block>
         </form>
 
     </div>

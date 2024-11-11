@@ -63,6 +63,15 @@ public class EventRepository {
         return Optional.of(event);
     }
 
+    public Optional<Event> increasePoints(Long id){
+        Event event = findById(id). get();
+        double newPop = event.getPopularityScore()+0.5;
+        event.setPopularityScore(newPop);
+        event.setLiked(true);
+        // add save when DB impl
+        return Optional.of(event);
+    }
+
 
 
 }
