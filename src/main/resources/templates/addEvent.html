@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:method="post" th:action="@{/events/save}">
+
+    <div>
+        <label for="name">Event name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               th:value="${event?.name}"
+        >
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <input type="text"
+               id="description"
+               name="description"
+               th:value="${event?.description}"
+            >
+    </div>
+    <div>
+        <label for="popularity">Popularity score</label>
+        <input type="number"
+               id="popularity"
+               name="popularity"
+               th:value="${event?.popularityScore}"
+              >
+    </div>
+    <div>
+        <label>Location</label><br/>
+        <select id="locationId" name="locationId">
+            <option
+                    th:each="location: ${locations}"
+                    th:value="${location.id}"
+                    th:text="${location.name}"
+                    th:selected="${event?.location?.id == location.id}">
+
+            ></option>
+        </select>
+    </div>
+    <button id="submit" type="submit">Submit</button>
+    <a id="back" href="/events" type="button" class="btn btn-primary">Back to events</a>
+</form>
+</body>
+</html>

@@ -8,6 +8,12 @@
             margin: auto;
         }
     </style>
+    <script>
+        // JavaScript function to set the selected event name in the hidden input field
+        function setEventName(eventName) {
+            document.getElementById('hiddenEventName').value = eventName.getAttribute('data-event-name');
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -18,35 +24,49 @@
     <h2>Search an event:</h2>
     <form th:method="GET" th:action="@{/}">
         <label>Text
-        <input type="text" name="text"></label>
+            <input type="text" name="text"></label>
         <label>
             Rating
             <input type="number" name="rating">
         </label>
         <input type="submit" value="List">
     </form>
+    <div>
+        <a href="/events/add">Add Event</a>
+    </div>
     <h2>Choose an event:</h2>
     <!-- Display radio buttons for each event,
             the value should be the event name
             and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
-    <form th:method="POST" th:action="@{/eventBooking}">
 
     <div th:each="e : ${events}">
-        <input type="radio" name="eventName" th:value="${e.getName()}">
-        <th:block th:text="${e.getName()} + ' ' + ${e.getDescription()} + ' ' + ${e.getPopularityScore()} "></th:block>
+
+        <input type="radio" name="eventName" th:value="${e.name}" th:data-event-name="${e.name}" required onclick="setEventName(this)">
+        <th:block th:text="${e.getName()} + ' ' + ${e.getDescription()} + ' ' + ${e.getPopularityScore()} + ' ' + ${e.getLocation().getName()} "></th:block>
+
+        <form th:method="POST" th:action="@{'/events/{id}/delete'(id=${e.getId()})}" style="display: inline">
+            <button type="submit">Delete</button>
+        </form>
+
+        <form th:action="@{'/events/{id}/edit'(id=${e.getId()})}" style="display: inline">
+            <button type="submit">Edit</button>
+        </form>
+
     </div>
-    <h2>Choose number of tickets:</h2>
-    <input type="number" name="numTickets" min="1" max="10"><br/>
-    <br/>
-    <input type="submit" value="Submit">
+    <form th:method="POST" th:action="@{/eventBooking}">
+        <h2>Choose number of tickets:</h2>
+        <input type="hidden" id="hiddenEventName" name="eventName">
+        <input type="number" name="numTickets" min="1" max="10"><br/>
+        <br/>
+        <button type="submit">Submit</button>
 
         <h2>User Information:</h2>
         <label>Name
-        <input type="text" name="username"></label>
+            <input type="text" name="username"></label>
         <br>
         <br>
         <label>Address
-        <input type="text" name="userAddress"></label>
+            <input type="text" name="userAddress"></label>
         <br>
     </form>
 </main>
