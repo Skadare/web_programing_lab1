@@ -26,19 +26,7 @@ public class EventController {
     public String getEventsPage(@RequestParam(required = false) String error, Model model){
         List<Event> eventList = eventService.listAll();
         model.addAttribute("events",eventList);
-       // model.addAttribute("clicked",false);
         return "listEvents";
-    }
-
-    @PostMapping("/save")
-    public String saveEvent(@RequestParam String name,
-                           @RequestParam String description,
-                            @RequestParam double popularity,
-                            @RequestParam Long locationId){
-
-            eventService.save(name, description, popularity, locationId);
-
-        return "redirect:/events";
     }
 
     @GetMapping("/add")
@@ -54,17 +42,23 @@ public class EventController {
         model.addAttribute("event",event);
         model.addAttribute("locations",locationService.findAll());
 
-        return "editEvent";
+        return "addEvent";
     }
 
     @PostMapping("/saveEdit")
     public String showEdited(@RequestParam(required = false) Long id,
-            @RequestParam String name,
+                             @RequestParam String name,
                              @RequestParam String description,
                              @RequestParam double popularity,
                              @RequestParam Long locationId
                              ) {
-        eventService.update(id, name, description, popularity, locationId);
+
+        if(id != null){
+            eventService.update(id, name, description, popularity, locationId);
+        }
+        else{
+            eventService.save(name, description, popularity, locationId);
+        }
 
         return "redirect:/events";
     }
@@ -82,11 +76,5 @@ public class EventController {
         model.addAttribute("event", event);
         return "redirect:/events";
     }
-//    @PostMapping("/{id}/increase")
-//    public String increaseEvent(@PathVariable Long id, Model model){
-//        eventService.increasePopularity(id);
-//        model.addAttribute("clickedEventId",id);
-//
-//                return "redirect:/events/add";
-//    }
+
 }

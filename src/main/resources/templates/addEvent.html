@@ -5,14 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<form th:method="post" th:action="@{/events/save}">
-
+<form th:method="post" th:action="@{/events/saveEdit}">
+    <input id="id" type="hidden" name="id"
+        th:value="(${event}!=null ? ${event.getId()} : '')"
+    >
     <div>
         <label for="name">Event name</label>
         <input type="text"
                id="name"
                name="name"
-               th:value="${event?.name}"
+               th:value="(${event} != null ? ${event.name} : '')"
         >
     </div>
     <div>
@@ -20,7 +22,7 @@
         <input type="text"
                id="description"
                name="description"
-               th:value="${event?.description}"
+               th:value="(${event} != null ? ${event.description} : '')"
             >
     </div>
     <div>
@@ -28,19 +30,28 @@
         <input type="number"
                id="popularity"
                name="popularity"
-               th:value="${event?.popularityScore}"
+               th:value="(${event} != null ? ${event.popularityScore} : '')"
               >
     </div>
     <div>
         <label>Location</label><br/>
         <select id="locationId" name="locationId">
             <option
-                    th:each="location: ${locations}"
-                    th:value="${location.id}"
-                    th:text="${location.name}"
-                    th:selected="${event?.location?.id == location.id}">
-
+                    th:if="${event} != null"
+                    th:selected="${event.getLocation() != null && event.getLocation().getId() == event.getId()}"
+                    th:each="location : ${locations}"
+                    th:value="${location.getId()}"
+                    th:text="${location.getName()}"
+            >
             ></option>
+            <option
+                    th:if="${event} == null"
+                    th:each="location : ${locations}"
+                    th:value="${location.getId()}"
+                    th:text="${location.getName()}"
+            >
+                ></option>
+
         </select>
     </div>
     <button id="submit" type="submit">Submit</button>
