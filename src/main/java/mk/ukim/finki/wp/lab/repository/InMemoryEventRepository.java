@@ -11,10 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class EventRepository {
+public class InMemoryEventRepository {
     List<Event> events = new ArrayList<>();
     private final LocationService locationService;
-    public EventRepository(LocationService locationService)
+    public InMemoryEventRepository(LocationService locationService)
     {
         this.locationService = locationService;
         List<Location> locations = locationService.findAll();
