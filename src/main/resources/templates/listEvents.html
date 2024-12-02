@@ -47,7 +47,7 @@
     <div th:each="e : ${events}">
 
         <input type="radio" name="eventName" th:value="${e.name}" th:data-event-name="${e.name}" required onclick="setEventName(this)">
-        <th:block th:text="${e.getName()} + ' ' + ${e.getDescription()} + ' ' + ${e.getPopularityScore()} + ' ' + ${e.getLocation().getName()} "></th:block>
+        <th:block th:text="${e.getName()} + ' ' + ${e.getDescription()} + ' ' + ${e.getPopularityScore()} + ' ' + ${e.getLocation().getName()} + ' ' + ${e.getCategory().getName()} "></th:block>
 
         <form th:method="POST" th:action="@{'/events/{id}/delete'(id=${e.getId()})}" style="display: inline">
             <button type="submit">Delete</button>

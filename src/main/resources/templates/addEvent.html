@@ -54,6 +54,27 @@
 
         </select>
     </div>
+    <div>
+        <label>Location</label><br/>
+        <select id="categoryId" name="categoryId">
+            <option
+                    th:if="${event} != null"
+                    th:selected="${event.getCategory() != null && event.getCategory().getId() == event.getId()}"
+                    th:each="category : ${categories}"
+                    th:value="${category.getId()}"
+                    th:text="${category.getName()}"
+            >
+                ></option>
+            <option
+                    th:if="${event} == null"
+                    th:each="category : ${categories}"
+                    th:value="${category.getId()}"
+                    th:text="${category.getName()}"
+            >
+                ></option>
+
+        </select>
+    </div>
     <button id="submit" type="submit">Submit</button>
     <a id="back" href="/events" type="button" class="btn btn-primary">Back to events</a>
 </form>

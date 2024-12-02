@@ -10,9 +10,9 @@ public interface EventService {
     List<Event> listAll();
     List<Event> searchEvents(String text, Double rating);
 
-    Optional<Event> save(String name, String description, Double popularity, Long id);
+    Optional<Event> save(String name, String description, Double popularity, Long id, Long categoryId);
     Optional<Event> findById(Long id);
-    Optional<Event>update(Long id, String name, String description, Double popularityScore, Long locationId);
+    Optional<Event>update(Long id, String name, String description, Double popularityScore, Long locationId, Long categoryId);
     void delete(Long id);
     Optional<Event> increasePopularity(Long id);
 

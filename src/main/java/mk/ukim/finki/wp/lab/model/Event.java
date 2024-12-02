@@ -15,13 +15,17 @@ public class Event {
     Double popularityScore;
     @ManyToOne
     Location location;
+    @ManyToOne
+    Category category;
     boolean liked;
 
-    public Event(String name, String description, Double popularityScore, Location location) {
+
+    public Event(String name, String description, Double popularityScore, Location location, Category category) {
         this.name = name;
         this.description = description;
         this.popularityScore = popularityScore;
         this.location = location;
+        this.category = category;
         this.liked = false;
     }
     public Event(){
@@ -30,6 +34,7 @@ public class Event {
         this.description = null;
         this.popularityScore = 0.0;
         this.location = null;
+        this.category = null;
         this.liked = false;
     }
 
