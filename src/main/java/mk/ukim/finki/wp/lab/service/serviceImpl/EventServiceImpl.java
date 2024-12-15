@@ -32,7 +32,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> searchEvents(String text, Double rating) {
-        return er.findAllByNameAndPopularityScore(text,rating);
+        return er.findAllByNameContainingIgnoreCaseAndPopularityScoreGreaterThan(text,rating);
     }
 
 

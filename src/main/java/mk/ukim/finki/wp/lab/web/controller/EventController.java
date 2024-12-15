@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.lab.model.Location;
 import mk.ukim.finki.wp.lab.service.CategoryService;
 import mk.ukim.finki.wp.lab.service.EventService;
 import mk.ukim.finki.wp.lab.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,7 @@ public class EventController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showAdd(Model model){
         model.addAttribute("locations",locationService.findAll());
         model.addAttribute("categories",categoryService.findAll());
@@ -55,7 +57,8 @@ public class EventController {
         return "addEvent";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showEditEvent(@PathVariable Long id, Model model){
         Event event = eventService.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid id"+id));
         model.addAttribute("event",event);
@@ -66,6 +69,7 @@ public class EventController {
     }
 
     @PostMapping("/saveEdit")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showEdited(@RequestParam(required = false) Long id,
                              @RequestParam String name,
                              @RequestParam String description,
@@ -84,16 +88,17 @@ public class EventController {
         return "redirect:/events";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id){
         eventService.delete(id);
         return "redirect:/events";
     }
 
-    @PostMapping("/{id}/increase")
+    @PostMapping("/increase/{id}")
     public String increaseEvent(@PathVariable Long id, Model model){
         eventService.increasePopularity(id);
-        Event event =  eventService.findById(id).orElseThrow(() -> new RuntimeException("event not founf"));
+        Event event =  eventService.findById(id).orElseThrow(() -> new RuntimeException("event not found"));
         model.addAttribute("event", event);
         return "redirect:/events";
     }

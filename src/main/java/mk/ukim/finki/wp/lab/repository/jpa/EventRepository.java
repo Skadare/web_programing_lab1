@@ -9,7 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> findAllByNameAndPopularityScore(String text, Double rating);
+   // List<Event> findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPopularityScoreGreaterThanEqual(String text, Double rating);
+   List<Event> findAllByNameContainingIgnoreCaseAndPopularityScoreGreaterThan(String text, Double rating);
     void deleteById(Long id);
     List<Event> findAllByLocation_Id(Long LocationId);
 }
